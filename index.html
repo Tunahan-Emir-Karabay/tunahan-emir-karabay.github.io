@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tunahan Emir Karabay</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Tunahan Emir Karabay – Yapay Zeka Yazılım Mühendisi | Kontrol ve Robotik Sistemler">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: tek sütun okuma akışı; üstte isim + basamak yanıtı grafiği, altında projeler ızgarası, deneyim ve yarışma şeridi */
+:root {
+  --bg: #f4f6f7;
+  --surface: #ffffff;
+  --fg: #13212b;
+  --muted: #586a76;
+  --line: #d6dee3;
+  --accent: #0d6a86;
+  --accent-soft: #e2eff3;
+  --band: rgba(13,106,134,.10);
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d151b; --surface: #131e26; --fg: #e3ebef; --muted: #93a5b1; --line: #26343e;
+    --accent: #5cb8d6; --accent-soft: #17303b; --band: rgba(92,184,214,.13); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d151b; --surface: #131e26; --fg: #e3ebef; --muted: #93a5b1; --line: #26343e;
+  --accent: #5cb8d6; --accent-soft: #17303b; --band: rgba(92,184,214,.13); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 400 1rem/1.6 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+.wrap { max-width: 1060px; margin: 0 auto; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
+.mono { font-family: var(--f-mono); }
+
+/* Üst şerit */
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-block: 18px; border-bottom: 1px solid var(--line); }
+.top .id { font-family: var(--f-mono); font-size: .8rem; color: var(--muted); letter-spacing: .04em; }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.lang button { font: 500 .8rem var(--f-mono); background: transparent; color: var(--muted); border: 0; padding: 6px 14px; cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--accent); color: var(--bg); }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: center; padding-block: 48px 36px; }
+.hero h1 { font-size: clamp(2.2rem, 5.2vw, 3.6rem); font-weight: 800; line-height: 1.02; letter-spacing: -.02em; }
+.role { margin: 14px 0 0; font: 600 1.05rem var(--f-body); color: var(--accent); }
+.lead { margin: 18px 0 0; max-width: 62ch; color: var(--fg); }
+.contact { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 22px; align-items: center; font-size: .92rem; }
+.contact .mail { display: inline-flex; align-items: center; gap: 8px; font-family: var(--f-mono); font-size: .85rem; user-select: all; }
+.btn { font: 500 .8rem var(--f-mono); color: var(--accent); background: var(--accent-soft); border: 1px solid transparent; border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+.chip-open { font: 500 .78rem var(--f-mono); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+
+.plot { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 14px 8px; }
+.plot svg { width: 100%; height: auto; display: block; }
+.plot figcaption { font: 400 .75rem/1.4 var(--f-mono); color: var(--muted); margin-top: 6px; }
+
+/* Bilgi şeridi */
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.fact { padding: 16px 16px 16px 0; display: grid; gap: 2px; }
+.fact + .fact { padding-left: 16px; border-left: 1px solid var(--line); }
+.fact b { font: 700 1.35rem var(--f-display); font-variant-numeric: tabular-nums; }
+.fact span { font-size: .82rem; color: var(--muted); }
+
+/* Bölümler */
+section.block { padding-top: 48px; }
+.sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; }
+.sec-head h2 { font-size: 1.5rem; font-weight: 700; }
+.sec-head .tag { font: 500 .75rem var(--f-mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+
+.projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.proj { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.proj .ctx { font: 500 .74rem var(--f-mono); color: var(--muted); letter-spacing: .03em; }
+.proj h3 { font-size: 1.12rem; font-weight: 700; line-height: 1.25; }
+.proj p { margin: 0; font-size: .94rem; }
+.proj .result { font-size: .9rem; background: var(--accent-soft); border-radius: 6px; padding: 8px 10px; }
+.proj .result b { font-family: var(--f-mono); font-weight: 500; color: var(--accent); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 4px; }
+.tags span { font: 400 .72rem var(--f-mono); border: 1px solid var(--line); color: var(--muted); border-radius: 4px; padding: 2px 7px; }
+
+.rows { display: grid; }
+.row { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 20px; padding-block: 16px; border-top: 1px solid var(--line); }
+.row:last-child { border-bottom: 1px solid var(--line); }
+.row .when { font: 400 .82rem/1.5 var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.row h3 { font: 600 1rem/1.4 var(--f-body); }
+.row h3 em { font-style: normal; color: var(--muted); font-weight: 400; }
+.row ul { margin: 6px 0 0; padding-left: 18px; font-size: .93rem; }
+.row li + li { margin-top: 3px; }
+
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.skills { display: grid; gap: 14px; }
+.skills h3 { font: 600 .9rem var(--f-body); margin-bottom: 6px; }
+.skills .tags span { font-size: .76rem; color: var(--fg); }
+.pub { font-size: .93rem; border-left: 2px solid var(--accent); padding-left: 14px; }
+footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); font: 400 .78rem var(--f-mono); color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; gap: 28px; padding-block: 32px 28px; }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fact:nth-child(3) { padding-left: 0; border-left: 0; }
+  .fact:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .projects, .two { grid-template-columns: 1fr; }
+  .row { grid-template-columns: 1fr; gap: 4px; }
+}
+@media (prefers-reduced-motion: no-preference) { .lang button { transition: background .15s, color .15s; } }
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <span class="id">T. E. KARABAY · <span data-i="loc"></span></span>
+    <div class="lang" role="group" aria-label="Dil / Language">
+      <button type="button" id="btn-tr" data-lang="tr">TR</button>
+      <button type="button" id="btn-en" data-lang="en">EN</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Tunahan Emir Karabay</h1>
+      <p class="role" data-i="role"></p>
+      <p class="lead" data-i="lead"></p>
+      <div class="contact">
+        <span class="mail"><span id="mail">tunahanemir.karabay@gmail.com</span><button class="btn" id="copy" type="button" data-i="copy"></button></span>
+        <a href="https://www.linkedin.com/in/tunahan-emir-karabay" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <span class="chip-open" data-i="remote"></span>
+      </div>
+    </div>
+    <figure class="plot" style="margin:0">
+      <svg id="step" viewBox="0 0 420 240" role="img" aria-labelledby="step-cap"></svg>
+      <figcaption id="step-cap" data-i="plotcap"></figcaption>
+    </figure>
+  </section>
+
+  <div class="facts" id="facts"></div>
+
+  <section class="block" id="projeler">
+    <div class="sec-head"><h2 data-i="h-proj"></h2><span class="tag" data-i="t-proj"></span></div>
+    <div class="projects" id="projects"></div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><h2 data-i="h-exp"></h2></div>
+    <div class="rows" id="exp"></div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><h2 data-i="h-comp"></h2></div>
+    <div class="rows" id="comp"></div>
+  </section>
+
+  <section class="block two">
+    <div>
+      <div class="sec-head"><h2 data-i="h-edu"></h2></div>
+      <div class="rows" id="edu"></div>
+      <div class="sec-head" style="margin-top:32px"><h2 data-i="h-pub"></h2></div>
+      <p class="pub" data-i="pub"></p>
+    </div>
+    <div>
+      <div class="sec-head"><h2 data-i="h-skill"></h2></div>
+      <div class="skills" id="skills"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Tunahan Emir Karabay</span>
+    <span data-i="foot"></span>
+  </footer>
+</div>
+
+<script>
+const T = {
+  tr: {
+    loc: "İSTANBUL",
+    role: "Yapay Zeka Yazılım Mühendisi · Kontrol ve Robotik Sistemler",
+    lead: "Baykar'da en az 2 İHA'lık sürüler için formasyon kontrolü ve rota planlama algoritmaları geliştiriyor, gerçek uçuş testleriyle doğruluyorum. YTÜ Kontrol ve Otomasyon Mühendisliği'nde yüksek lisans tezimi pekiştirmeli öğrenme, dünya modelleri ve MPC ile sürü formasyon kontrolü üzerine yazıyorum.",
+    copy: "Kopyala", copied: "Kopyalandı", copyfail: "Seçildi, Ctrl+C ile kopyalayın",
+    remote: "Uzaktan çalışmaya açık",
+    plotcap: "İkinci derece sistemin basamak yanıtı (ζ = 0,45): %20,5 aşım, ±%2 bandına ~8,9 s'de yerleşme.",
+    "h-proj": "Projeler", "t-proj": "Kontrol · Robotik · Derin öğrenme",
+    "h-exp": "İş deneyimi", "h-comp": "Yarışmalar ve takım liderliği",
+    "h-edu": "Eğitim", "h-pub": "Yayın", "h-skill": "Beceriler",
+    pub: "T. E. Karabay, R. Arabacı, C. S. Demirci, Ö. F. Pekalkan, Ü. S. Soğancı, İ. Kiraz, M. T. Emirler, “Otonom Araç Yörünge Takibinde PID, Doğrusal Model Öngörülü ve Bulanık Mantık Adaptif Model Öngörülü Kontrolörlerin Kıyaslanması”, Türkiye Otomatik Kontrol Konferansı (TOK), 2026.",
+    foot: "Son güncelleme: Ekim 2026",
+    axT: "t [s]", res: "Sonuç",
+    facts: [["2+ yıl", "profesyonel deneyim"], ["5.", "Teknofest Robotaksi 2024"], ["TOK 2026", "yayımlanan bildiri"], ["3,38 / 4", "yüksek lisans ders ortalaması"]],
+    projects: [
+      { ctx: "Yüksek lisans tezi · devam ediyor", h: "RL, dünya modelleri ve MPC ile İHA sürü formasyon kontrolü", p: "Pekiştirmeli öğrenme ve dünya modellerini Model Öngörülü Kontrol ile birleştirerek İHA sürülerinde formasyon kontrolü üzerine çalışıyorum.", tags: ["Reinforcement Learning", "World Models", "MPC", "Sürü"] },
+      { ctx: "Yüksek lisans · Otonom Sürüş Kontrol Sistemleri", h: "Bağlantılı otonom araçlarda konvoy (platoon) kontrolü", p: "V2V haberleşmeli 1 lider + 3 takipçi araçlık konvoy için elektronik gaz kelebeği açısını ve optimal hız fonksiyonunu içeren konsensüs tabanlı protokolü (Li ve He, 2018) yönlü graf topolojisiyle modelledim; kararlılığı Routh–Hurwitz kriteriyle analiz ettim. 2 kişilik ekip.", r: "<b>1,4 m/s</b> en büyük hız farkı 12 s içinde sıfırlandı; <b>5 m</b> takip mesafesi korundu.", tags: ["MATLAB", "Simulink", "V2V", "Graf teorisi", "Routh–Hurwitz"] },
+      { ctx: "Yüksek lisans · Derin öğrenme", h: "Uydu görüntülerinde çok görevli değişim tespiti", p: "İki zamanlı uydu görüntülerinde nesne (13), olay (13) ve öznitelik (25 sınıf) değişimlerini birlikte tespit eden Siyam ResNet34 modelini 9.628 örneklik veri setiyle eğittim; sınıf dengesizliğini pos_weight'li BCE, veri artırımı ve erken durdurmayla ele aldım.", r: "Makro F1: nesne <b>%17,0 → %24,4</b>, olay <b>%18,3 → %28,1</b>, öznitelik <b>%9,8 → %19,7</b>.", tags: ["PyTorch", "timm", "ResNet34", "Siamese", "Multi-task"] },
+      { ctx: "Yüksek lisans · TOK 2026", h: "Otonom araç yörünge takibi: Bulanık Mantık Adaptif MPC", p: "Araç dinamiğiyle Doğrusal MPC ve ağırlık matrisleri bulanık mantıkla güncellenen Adaptif MPC tasarladım; Dubins eğrileriyle üretilen referans yörüngeleri takip ettim.", r: "PID'e göre <b>daha az kontrol sinyaliyle</b> aynı takip verimi.", tags: ["MPC", "Bulanık mantık", "Dubins", "MATLAB"] },
+      { ctx: "Yüksek lisans · Olasılıksal Robotik", h: "Sensör füzyonu ve durum tahmini", p: "Gürültü altında konum ve durum tahmini için Kalman, EKF, UKF ve Parçacık Filtresi algoritmalarını tasarladım.", tags: ["Kalman", "EKF", "UKF", "Particle Filter"] },
+      { ctx: "Lisans tasarım projesi · TÜBİTAK 2209-B", h: "HIL ile aerobatik uçuş kontrolcüsü", p: "Simulink ve Hardware-in-the-Loop ile sabit kanatlı uçakların aerobatik manevraları için kontrolcü tasarladım ve parametre limitlerini belirledim. Ayrıca Cessna dinamik modelinde MPC ile agresif bozucular altında stabil irtifa kontrolü sağladım.", tags: ["Simulink", "HIL", "Uçuş dinamiği", "MPC"] }
+    ],
+    exp: [
+      ["Ekim 2024 – Halen", "Yapay Zeka Yazılım Mühendisi", "Baykar", ["En az 2 İHA'lık sürülerde kural tabanlı otonom formasyon kontrolü algoritmaları geliştirdim, gerçek uçuş testlerinde doğruladım (C++, MATLAB).", "Dinamik ve çevresel koşullar altında optimum rota planlama algoritmaları tasarladım."]],
+      ["Şub 2024 – Eki 2024", "Emniyet Kritik Yazılım Mühendisi", "Yapı Merkezi İDİS", ["5 kişilik ekipte raylı sistem PLC'leri için ST kodu üreten yazılımın arayüz ve backend işlevlerini geliştirdim; sertifikasyon süreçlerinde görev aldım.", "Python, SQLite, Qt Designer ile masaüstü; STM32 ile gömülü yazılım."]],
+      ["Haz 2023 – Ağu 2023", "Yazılım Tasarım Stajyeri", "Pavelsis Aviyonik", ["MATLAB ve FlightGear ile HIL simülasyonunda uçağın komutlarla stabil uçmasını sağlayan kontrolcü tasarladım; XFLR5 ile aerodinamik analiz."]],
+      ["2023", "Back-end Yazılımcı", "T3 Vakfı · Yükselen Yıldız", ["Bilişim koordinatörlüğünde 1 yıl back-end yazılım geliştirdim."]],
+      ["Ara 2021 – Mar 2022", "Yapay Zeka Stajyeri (uzaktan)", "Segion Analytics", ["ODTÜ'de kurulan girişimin yapay zeka projelerinde staj."]]
+    ],
+    comp: [
+      ["2023 – 2024", "YODA Takım Kaptanı ve Yazılım Sorumlusu", "Teknofest Robotaksi", ["20 kişilik takım; ROS-Gazebo'da otonom sürüş yazılımı.", "OpenCV ile şerit takibi, YOLOv4/YOLOv7 ile trafik levhası tespiti, park etme, odometri ve lokalizasyon.", "2023'te 41 finalist arasında 13., 2024'te 5."]],
+      ["2024", "Takım Kaptanı ve Yazılım Sorumlusu", "Teknofest Uluslararası İHA", ["10 kişilik takım; kara araçlarıyla iş birliği yapan, hareketli platformlara iniş-kalkış yapan döner kanatlı İHA.", "Jetson Nano'da ROS ile nesne tespiti ve takibi, drone uçuş kontrol algoritmaları. Finalist."]]
+    ],
+    edu: [
+      ["Devam ediyor", "Yüksek Lisans, Kontrol ve Otomasyon Müh.", "Yıldız Teknik Üniversitesi", ["Ders ortalaması 3,38 / 4,00 · Tez dönemi"]],
+      ["2019 – 2024", "Lisans, Kontrol ve Otomasyon Müh. (İng.)", "Yıldız Teknik Üniversitesi", ["Ortalama 3,11 / 4,00 · YODA topluluğu kurucu ekip lideri"]]
+    ],
+    skills: [
+      ["Kontrol ve otonom sistemler", ["MPC", "Adaptif MPC", "Optimal kontrol", "Pekiştirmeli öğrenme", "World Models", "Sürü formasyonu", "Konvoy kontrolü", "Rota planlama", "Path tracking", "SLAM", "Odometri ve lokalizasyon", "Sistem tanıma"]],
+      ["Yapay zeka ve algılama", ["PyTorch", "CNN / ResNet", "Siyam ağları", "Çok görevli öğrenme", "OpenCV", "YOLOv4 / v7", "Nesne takibi", "Kalman / EKF / UKF", "Parçacık filtresi"]],
+      ["Yazılım ve araçlar", ["C++", "Python", "C", "MATLAB / Simulink", "ROS", "Gazebo", "Pixhawk", "FlightGear", "XFLR5", "Jetson Nano", "STM32", "PostgreSQL", "SQLite", "Qt Designer"]],
+      ["Diller", ["Türkçe (ana dil)", "İngilizce (orta)", "İtalyanca (başlangıç)"]]
+    ]
+  },
+  en: {
+    loc: "ISTANBUL",
+    role: "AI Software Engineer · Control and Robotic Systems",
+    lead: "At Baykar I develop formation control and route planning algorithms for swarms of at least 2 UAVs and validate them in real flight tests. My M.Sc. thesis at Yıldız Technical University covers swarm formation control with reinforcement learning, world models and MPC.",
+    copy: "Copy", copied: "Copied", copyfail: "Selected, press Ctrl+C",
+    remote: "Open to remote work",
+    plotcap: "Step response of a second-order system (ζ = 0.45): 20.5% overshoot, settles within ±2% at ~8.9 s.",
+    "h-proj": "Projects", "t-proj": "Control · Robotics · Deep learning",
+    "h-exp": "Experience", "h-comp": "Competitions and team leadership",
+    "h-edu": "Education", "h-pub": "Publication", "h-skill": "Skills",
+    pub: "T. E. Karabay, R. Arabacı, C. S. Demirci, Ö. F. Pekalkan, Ü. S. Soğancı, İ. Kiraz, M. T. Emirler, “Comparison of PID, Linear Model Predictive and Fuzzy Logic Adaptive Model Predictive Controllers in Autonomous Vehicle Path Tracking” (in Turkish), Turkish Automatic Control Conference (TOK), 2026.",
+    foot: "Last updated: October 2026",
+    axT: "t [s]", res: "Result",
+    facts: [["2+ yrs", "professional experience"], ["5th", "Teknofest Robotaxi 2024"], ["TOK 2026", "published paper"], ["3.38 / 4", "M.Sc. coursework GPA"]],
+    projects: [
+      { ctx: "M.Sc. thesis · ongoing", h: "UAV swarm formation control with RL, world models and MPC", p: "Combining reinforcement learning and world models with Model Predictive Control for formation control of UAV swarms.", tags: ["Reinforcement Learning", "World Models", "MPC", "Swarm"] },
+      { ctx: "M.Sc. · Automated Driving Control Systems", h: "Connected autonomous vehicle platoon control", p: "Modeled a consensus-based protocol (Li & He, 2018) for a V2V-connected platoon of 1 leader and 3 followers, using electronic throttle angle and an optimal velocity function over a directed-graph topology; analyzed stability with the Routh–Hurwitz criterion. 2-person team.", r: "Peak velocity difference of <b>1.4 m/s</b> eliminated within 12 s; <b>5 m</b> following gap maintained.", tags: ["MATLAB", "Simulink", "V2V", "Graph theory", "Routh–Hurwitz"] },
+      { ctx: "M.Sc. · Deep learning", h: "Multi-task change detection in satellite imagery", p: "Trained a Siamese ResNet34 model on a 9,628-sample dataset to jointly detect object (13), event (13) and attribute (25 classes) changes in bi-temporal satellite images; handled class imbalance with pos_weight BCE, augmentation and early stopping.", r: "Macro F1: object <b>17.0% → 24.4%</b>, event <b>18.3% → 28.1%</b>, attribute <b>9.8% → 19.7%</b>.", tags: ["PyTorch", "timm", "ResNet34", "Siamese", "Multi-task"] },
+      { ctx: "M.Sc. · TOK 2026", h: "Autonomous vehicle path tracking: fuzzy adaptive MPC", p: "Designed a Linear MPC and an Adaptive MPC whose weight matrices are tuned by fuzzy logic, using vehicle dynamics; tracked reference paths generated with Dubins curves.", r: "Same tracking performance as PID with <b>a lower control signal</b>.", tags: ["MPC", "Fuzzy logic", "Dubins", "MATLAB"] },
+      { ctx: "M.Sc. · Probabilistic Robotics", h: "Sensor fusion and state estimation", p: "Designed Kalman Filter, EKF, UKF and Particle Filter algorithms for position and state estimation under noise.", tags: ["Kalman", "EKF", "UKF", "Particle Filter"] },
+      { ctx: "B.Sc. design project · TÜBİTAK 2209-B", h: "Aerobatic flight controller with HIL", p: "Used Simulink and Hardware-in-the-Loop to design a controller for aerobatic maneuvers of fixed-wing aircraft and set its parameter limits. Also achieved stable altitude control of a Cessna model under aggressive disturbances with MPC.", tags: ["Simulink", "HIL", "Flight dynamics", "MPC"] }
+    ],
+    exp: [
+      ["Oct 2024 – Present", "AI Software Engineer", "Baykar", ["Developed rule-based autonomous formation control algorithms for swarms of at least 2 UAVs and validated them in real flight tests (C++, MATLAB).", "Designed optimal route planning algorithms under dynamic and environmental conditions."]],
+      ["Feb 2024 – Oct 2024", "Safety-Critical Software Engineer", "Yapı Merkezi İDİS", ["In a 5-person team, developed interface and backend functions of software generating ST code for railway PLCs; took part in certification.", "Desktop software with Python, SQLite, Qt Designer; embedded software on STM32."]],
+      ["Jun 2023 – Aug 2023", "Software Design Intern", "Pavelsis Avionics", ["Designed a controller for fully command-driven stable flight in a MATLAB–FlightGear HIL simulation; aerodynamic analysis in XFLR5."]],
+      ["2023", "Back-End Developer", "T3 Foundation · Rising Star", ["Developed back-end software for one year at the IT coordination office."]],
+      ["Dec 2021 – Mar 2022", "AI Intern (remote)", "Segion Analytics", ["Internship on AI projects at a start-up founded at METU."]]
+    ],
+    comp: [
+      ["2023 – 2024", "YODA Team Captain and Software Lead", "Teknofest Robotaxi", ["20-person team; autonomous driving software in ROS-Gazebo.", "Lane keeping with OpenCV, traffic sign detection with YOLOv4/YOLOv7, parking, odometry and localization.", "13th of 41 finalists in 2023, 5th in 2024."]],
+      ["2024", "Team Captain and Software Lead", "Teknofest International UAV", ["10-person team; rotary-wing UAV cooperating with ground vehicles and landing on moving platforms.", "ROS object detection and tracking on Jetson Nano, drone flight control algorithms. Finalist."]]
+    ],
+    edu: [
+      ["Ongoing", "M.Sc., Control and Automation Eng.", "Yıldız Technical University", ["Coursework GPA 3.38 / 4.00 · Thesis stage"]],
+      ["2019 – 2024", "B.Sc., Control and Automation Eng. (English)", "Yıldız Technical University", ["GPA 3.11 / 4.00 · Founding team leader, YODA community"]]
+    ],
+    skills: [
+      ["Control and autonomous systems", ["MPC", "Adaptive MPC", "Optimal control", "Reinforcement learning", "World Models", "Swarm formation", "Platoon control", "Route planning", "Path tracking", "SLAM", "Odometry and localization", "System identification"]],
+      ["AI and perception", ["PyTorch", "CNN / ResNet", "Siamese networks", "Multi-task learning", "OpenCV", "YOLOv4 / v7", "Object tracking", "Kalman / EKF / UKF", "Particle filter"]],
+      ["Software and tools", ["C++", "Python", "C", "MATLAB / Simulink", "ROS", "Gazebo", "Pixhawk", "FlightGear", "XFLR5", "Jetson Nano", "STM32", "PostgreSQL", "SQLite", "Qt Designer"]],
+      ["Languages", ["Turkish (native)", "English (intermediate)", "Italian (beginner)"]]
+    ]
+  }
+};
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const tags = a => `<div class="tags">${a.map(t => `<span>${esc(t)}</span>`).join("")}</div>`;
+const rows = list => list.map(([w, title, org, items]) =>
+  `<div class="row"><div class="when">${esc(w)}</div><div><h3>${esc(title)} <em>· ${esc(org)}</em></h3><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div></div>`).join("");
+
+function drawStep(t) {
+  const svg = document.getElementById("step");
+  const W = 420, H = 240, L = 40, R = 12, Tp = 14, B = 34;
+  const z = 0.45, wn = 1, tMax = 16, yMax = 1.4;
+  const wd = wn * Math.sqrt(1 - z * z), phi = Math.acos(z);
+  const y = s => 1 - Math.exp(-z * wn * s) / Math.sqrt(1 - z * z) * Math.sin(wd * s + phi);
+  const X = s => L + (s / tMax) * (W - L - R);
+  const Y = v => Tp + (1 - v / yMax) * (H - Tp - B);
+  let d = "";
+  for (let i = 0; i <= 320; i++) { const s = tMax * i / 320; d += (i ? "L" : "M") + X(s).toFixed(1) + " " + Y(y(s)).toFixed(1); }
+  const tp = Math.PI / wd, mp = y(tp), ts = 4 / (z * wn);
+  const grid = [0, 4, 8, 12, 16].map(s => `<line x1="${X(s)}" y1="${Tp}" x2="${X(s)}" y2="${H - B}" stroke="var(--line)" stroke-width="1"/><text x="${X(s)}" y="${H - B + 16}" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">${s}</text>`).join("")
+    + [0, 0.5, 1].map(v => `<line x1="${L}" y1="${Y(v)}" x2="${W - R}" y2="${Y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">${v.toFixed(1)}</text>`).join("");
+  svg.innerHTML =
+    `<rect x="${L}" y="${Y(1.02)}" width="${W - L - R}" height="${Y(0.98) - Y(1.02)}" fill="var(--band)"/>` + grid +
+    `<line x1="${L}" y1="${Y(1)}" x2="${W - R}" y2="${Y(1)}" stroke="var(--muted)" stroke-dasharray="4 4" stroke-width="1"/>` +
+    `<line x1="${X(ts)}" y1="${Tp}" x2="${X(ts)}" y2="${H - B}" stroke="var(--accent)" stroke-dasharray="2 4" stroke-width="1"/>` +
+    `<path d="${d}" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round"/>` +
+    `<circle cx="${X(tp)}" cy="${Y(mp)}" r="4" fill="var(--accent)"/>` +
+    `<text x="${X(tp) + 8}" y="${Y(mp) - 6}" font-size="11" fill="var(--fg)" font-family="IBM Plex Mono, monospace">Mp ${t === "tr" ? (Math.round((mp - 1) * 1000) / 10).toString().replace(".", ",") : (Math.round((mp - 1) * 1000) / 10)}%</text>` +
+    `<text x="${X(ts) + 6}" y="${Tp + 12}" font-size="11" fill="var(--accent)" font-family="IBM Plex Mono, monospace">ts</text>` +
+    `<text x="${W - R}" y="${H - 4}" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">${T[t].axT}</text>` +
+    `<text x="${L}" y="${Tp - 2}" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">y(t)</text>`;
+}
+
+function render(lang) {
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i]").forEach(el => { el.textContent = t[el.dataset.i]; });
+  document.getElementById("facts").innerHTML = t.facts.map(([b, s]) => `<div class="fact"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("");
+  document.getElementById("projects").innerHTML = t.projects.map(p =>
+    `<article class="proj"><span class="ctx">${esc(p.ctx)}</span><h3>${esc(p.h)}</h3><p>${esc(p.p)}</p>${p.r ? `<div class="result">${p.r}</div>` : ""}${tags(p.tags)}</article>`).join("");
+  document.getElementById("exp").innerHTML = rows(t.exp);
+  document.getElementById("comp").innerHTML = rows(t.comp);
+  document.getElementById("edu").innerHTML = rows(t.edu);
+  document.getElementById("skills").innerHTML = t.skills.map(([h, a]) => `<div><h3>${esc(h)}</h3>${tags(a)}</div>`).join("");
+  document.getElementById("btn-tr").setAttribute("aria-pressed", lang === "tr");
+  document.getElementById("btn-en").setAttribute("aria-pressed", lang === "en");
+  drawStep(lang);
+}
+
+function pickLang() {
+  const h = location.hash.replace("#", "");
+  if (h === "tr" || h === "en") return h;
+  try { const s = localStorage.getItem("lang"); if (s === "tr" || s === "en") return s; } catch (e) {}
+  return (navigator.language || "").toLowerCase().startsWith("tr") ? "tr" : "en";
+}
+let cur = pickLang();
+render(cur);
+document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => {
+  cur = b.dataset.lang; render(cur);
+  try { localStorage.setItem("lang", cur); } catch (e) {}
+  try { history.replaceState(null, "", "#" + cur); } catch (e) { location.hash = cur; }
+}));
+window.addEventListener("hashchange", () => { const h = location.hash.replace("#", ""); if ((h === "tr" || h === "en") && h !== cur) { cur = h; render(cur); } });
+document.getElementById("copy").addEventListener("click", () => {
+  const btn = document.getElementById("copy"), txt = document.getElementById("mail").textContent;
+  const done = msg => { btn.textContent = msg; setTimeout(() => { btn.textContent = T[cur].copy; }, 1800); };
+  const fallback = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById("mail")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); done(T[cur].copyfail); };
+  try { navigator.clipboard.writeText(txt).then(() => done(T[cur].copied), fallback); } catch (e) { fallback(); }
+});
+</script>
+
+</body>
+</html>
