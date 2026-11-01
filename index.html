@@ -56,7 +56,7 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
 .lang button[aria-pressed="true"] { background: var(--accent); color: var(--bg); }
 
 /* Hero */
-.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: center; padding-block: 48px 36px; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 48px; align-items: center; padding-block: 48px 36px; }
 .hero h1 { font-size: clamp(2.2rem, 5.2vw, 3.6rem); font-weight: 800; line-height: 1.02; letter-spacing: -.02em; }
 .role { margin: 14px 0 0; font: 600 1.05rem var(--f-body); color: var(--accent); }
 .lead { margin: 18px 0 0; max-width: 62ch; color: var(--fg); }
@@ -65,9 +65,18 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
 .btn { font: 500 .8rem var(--f-mono); color: var(--accent); background: var(--accent-soft); border: 1px solid transparent; border-radius: 6px; padding: 5px 10px; cursor: pointer; }
 .chip-open { font: 500 .78rem var(--f-mono); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
 
-.plot { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 14px 8px; }
-.plot svg { width: 100%; height: auto; display: block; }
-.plot figcaption { font: 400 .75rem/1.4 var(--f-mono); color: var(--muted); margin-top: 6px; }
+.photo { margin: 0; justify-self: end; width: min(100%, 300px); }
+.photo img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); }
+.photo figcaption { font: 400 .75rem/1.4 var(--f-mono); color: var(--muted); margin-top: 8px; text-align: right; }
+.proj ul { margin: 0; padding-left: 18px; font-size: .92rem; display: grid; gap: 4px; }
+.docs { display: flex; flex-wrap: wrap; gap: 8px; }
+.docs a { font: 500 .78rem var(--f-mono); text-decoration: none; color: var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 5px 10px; }
+.docs a:hover { text-decoration: underline; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 200px)); gap: 10px; margin-top: 12px; }
+.gallery figure { margin: 0; }
+.gallery img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); }
+.gallery figcaption { font: 400 .72rem/1.4 var(--f-mono); color: var(--muted); margin-top: 4px; }
+.pubdocs { margin-top: 10px; }
 
 /* Bilgi şeridi */
 .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -109,7 +118,9 @@ section.block { padding-top: 48px; }
 footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); font: 400 .78rem var(--f-mono); color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
 @media (max-width: 820px) {
-  .hero { grid-template-columns: 1fr; gap: 28px; padding-block: 32px 28px; }
+  .hero { grid-template-columns: 1fr; gap: 24px; padding-block: 28px 28px; }
+  .photo { justify-self: start; width: 160px; order: -1; }
+  .photo figcaption { display: none; }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .fact:nth-child(3) { padding-left: 0; border-left: 0; }
   .fact:nth-child(n+3) { border-top: 1px solid var(--line); }
@@ -142,9 +153,9 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line);
         <span class="chip-open" data-i="remote"></span>
       </div>
     </div>
-    <figure class="plot" style="margin:0">
-      <svg id="step" viewBox="0 0 420 240" role="img" aria-labelledby="step-cap"></svg>
-      <figcaption id="step-cap" data-i="plotcap"></figcaption>
+    <figure class="photo">
+      <img src="img/tunahan.jpg" width="560" height="560" alt="Tunahan Emir Karabay">
+      <figcaption data-i="photocap"></figcaption>
     </figure>
   </section>
 
@@ -171,6 +182,7 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line);
       <div class="rows" id="edu"></div>
       <div class="sec-head" style="margin-top:32px"><h2 data-i="h-pub"></h2></div>
       <p class="pub" data-i="pub"></p>
+      <div class="docs pubdocs" id="pubdocs"></div>
     </div>
     <div>
       <div class="sec-head"><h2 data-i="h-skill"></h2></div>
@@ -185,6 +197,8 @@ footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line);
 </div>
 
 <script>
+const PROJECTS = [{"docs":[{"tr":"Bildiri (PDF)","en":"Paper (PDF)","file":"tok2026-paper.pdf"},{"tr":"Sunum belgesi","en":"Presentation certificate","file":"tok2026-certificate.pdf"}],"tags":["MPC","Fuzzy Logic","System Identification","Dubins","MATLAB"],"tr":{"title":"Otonom Araç Yörünge Takibi: Bulanık Mantık Adaptif MPC","ctx":"Yüksek Lisans · TOK 2026 bildirisi","b":["Tek izli taşıt modeli ve sistem tanımlamayla elde edilen veri tabanlı modelde PID, Doğrusal MPC ve ağırlıkları bulanık mantıkla güncellenen Adaptif MPC tasarladım; Dubins eğrileriyle üretilen yörüngelerde benzetim ve gerçek araç testleriyle karşılaştırdım.","Bulanık Adaptif MPC, Doğrusal MPC'ye göre yanal hatayı benzetimde %14,8, gerçek testlerde yaklaşık %10 azalttı ve direksiyon toplam değişiminde %74,2 sönümleme sağladı."]},"en":{"title":"Autonomous Vehicle Trajectory Tracking: Fuzzy Adaptive MPC","ctx":"M.Sc. · TOK 2026 paper","b":["Designed PID, Linear MPC and an Adaptive MPC whose weight matrices are tuned by fuzzy logic, on a single-track vehicle model and a data-driven model obtained by system identification; generated reference paths with Dubins curves and compared the controllers in simulation and real-vehicle tests.","Compared with Linear MPC, the Fuzzy Adaptive MPC reduced lateral error by 14.8% in simulation and about 10% in real tests, and damped total steering variation by 74.2%."]}},{"docs":[{"tr":"Rapor (PDF)","en":"Report (PDF)","file":"platoon-control-report.pdf"}],"tags":["MATLAB","Simulink","V2V","Graph Theory","Routh–Hurwitz"],"tr":{"title":"Bağlantılı Otonom Araçlarda Konvoy (Platoon) Kontrolü","ctx":"Yüksek Lisans · Otonom Sürüş Kontrol Sistemleri","b":["2 kişilik ekipte, V2V haberleşmeli 1 lider ve 3 takipçi araçlık konvoy için elektronik gaz kelebeği açısı ve optimal hız fonksiyonu içeren konsensüs protokolünü (Li ve He, 2018) yönlü graf topolojisiyle MATLAB/Simulink'te modelledim; kararlılığı Routh–Hurwitz ile analiz ettim.","30 s'lik simülasyonda takipçilerin lidere göre en fazla 1,4 m/s olan hız farkı 12 s içinde sıfırlandı; 4 m'ye varan aralık hataları sönümlenerek 5 m'lik takip mesafesi korundu."]},"en":{"title":"Connected Autonomous Vehicle Platoon Control","ctx":"M.Sc. · Automated Driving Control Systems","b":["In a 2-person team, modeled a consensus-based control protocol (Li & He, 2018) in MATLAB and Simulink for a V2V-connected platoon of 1 leader and 3 followers, using electronic throttle angle and an optimal velocity function over a directed-graph topology; analyzed stability with the Routh–Hurwitz criterion.","In a 30 s simulation, the followers' peak velocity difference of 1.4 m/s was eliminated within 12 s; spacing errors of up to 4 m decayed and the 5 m following gap was maintained."]}},{"docs":[{"tr":"Poster (PDF)","en":"Poster (PDF)","file":"quadrotor-graduation-poster.pdf"},{"tr":"Sunum (PDF)","en":"Slides (PDF)","file":"quadrotor-graduation-presentation.pdf"}],"tags":["Simulink","Pixhawk","System Identification","ETFE","ARX","Arduino","Cascade P-PD"],"tr":{"title":"Quadrotor Modelleme, Kontrol ve Gerçek Sistemde Uygulama","ctx":"Lisans Bitirme Projesi","b":["2 kişilik ekipte quadrotorun doğrusal olmayan dinamik modelini çıkarıp doğrusallaştırdık ve durum uzayı modelini oluşturduk; gövdeyi CAD ile tasarlayıp donanımı entegre ettik.","ESC'nin çektiği akımı girdi, pervaneli motorun itkisini çıktı olarak kaydeden Arduino tabanlı düzenek kurdum; korelasyon analizi, ETFE, spektral analiz ve ARX yapı taramasıyla BLDC motorun ayrık zamanlı transfer fonksiyonunu elde ettim.","Simulink'te roll, pitch ve yaw için kaskad P-PD açı kontrolcüsü tasarlayıp Pixhawk'a yükledim; QGroundControl ile kalibrasyon yaparak gerçek sistemde açı kontrolünü sağladık."]},"en":{"title":"Quadrotor Modeling, Control and Real-System Implementation","ctx":"B.Sc. Graduation Project","b":["In a 2-person team, derived and linearized the quadrotor's nonlinear dynamic model and built its state-space model; designed the frame in CAD and integrated the hardware.","Built an Arduino-based rig recording the current drawn by the ESC as input and the propeller thrust as output; obtained the BLDC motor's discrete-time transfer function using correlation analysis, ETFE, spectral analysis and an ARX order search.","Designed cascade P-PD attitude controllers for roll, pitch and yaw in Simulink and deployed them to a Pixhawk; after calibration in QGroundControl, achieved attitude control on the real system."]}},{"docs":[{"tr":"Rapor (PDF)","en":"Report (PDF)","file":"change-detection-report.pdf"}],"tags":["PyTorch","timm","ResNet34","Siamese","Multi-task"],"tr":{"title":"Uydu Görüntülerinde Çok Görevli Değişim Tespiti","ctx":"Yüksek Lisans · Derin Öğrenme","b":["İki zamanlı uydu görüntülerinde nesne (13 sınıf), olay (13 sınıf) ve öznitelik (25 sınıf) değişimlerini birlikte tespit eden çok görevli Siyam ResNet34 modelini PyTorch ve timm ile tasarlayıp 9.628 örneklik veri setiyle T4 GPU üzerinde eğittim.","Dinamik pos_weight'li BCE kaybı, veri artırımı ve erken durdurmayla sınıf dengesizliğini ele aldım; bağımsız modellere göre Makro F1'i nesnede %17,0 → %24,4, olayda %18,3 → %28,1, öznitelikte %9,8 → %19,7'ye yükselttim."]},"en":{"title":"Multi-Task Change Detection in Satellite Imagery","ctx":"M.Sc. · Deep Learning","b":["Designed a multi-task Siamese ResNet34 model with PyTorch and timm that jointly detects object (13 classes), event (13 classes) and attribute (25 classes) changes in bi-temporal satellite images, and trained it on a 9,628-sample dataset on a T4 GPU.","Addressed class imbalance with dynamically weighted BCE loss (pos_weight), data augmentation and early stopping; versus single-task models, raised Macro F1 from 17.0% to 24.4% (object), 18.3% to 28.1% (event) and 9.8% to 19.7% (attribute)."]}},{"docs":[{"tr":"Rapor (PDF)","en":"Report (PDF)","file":"cessna-mpc-lqr-report.pdf"}],"tags":["MPC","LQR","Constraints","Discretization","MATLAB"],"tr":{"title":"Cessna Citation Uçuş Kontrolü: LQR ve Kısıtlı MPC","ctx":"Yüksek Lisans · Model Öngörülü Kontrol","b":["Cessna Citation'ın 5000 m ve 128,2 m/s'deki doğrusallaştırılmış modelini Euler ile ayrıklaştırıp LQR ile kısıtsız ve kısıtlı MPC tasarladım; ±0,262 rad elevatör, değişim hızı ve yunuslama hızı kısıtları altında sistemi kararlı kılan en kısa öngörü ufkunu N = 5 olarak belirledim."]},"en":{"title":"Cessna Citation Flight Control: LQR and Constrained MPC","ctx":"M.Sc. · Model Predictive Control","b":["Discretized the linearized Cessna Citation model (5000 m, 128.2 m/s) with the Euler method and designed LQR plus unconstrained and constrained MPC; under ±0.262 rad elevator, input-rate and pitch-rate constraints, found N = 5 as the shortest stabilizing prediction horizon."]}},{"docs":[{"tr":"Makale (PDF)","en":"Paper (PDF)","file":"prioritized-sweeping-paper.pdf"}],"tags":["Reinforcement Learning","Dyna-Q","Prioritized Sweeping","Python"],"tr":{"title":"Labirent Problemlerinde Prioritized Sweeping","ctx":"Yüksek Lisans · Pekiştirmeli Öğrenme","b":["Prioritized Sweeping ve Dyna-Q algoritmalarını Python'da uyguladım; 54 ile 376 durum arasındaki 4 farklı labirentte 50'şer tekrar ve 10.000 bölümle karşılaştırarak Prioritized Sweeping'in genelde daha az Q-değeri güncellemesiyle daha hızlı yakınsadığını gösterdim."]},"en":{"title":"Prioritized Sweeping in Maze Problems","ctx":"M.Sc. · Reinforcement Learning","b":["Implemented Prioritized Sweeping and Dyna-Q in Python and compared them on 4 mazes of 54 to 376 states with 50 runs and 10,000 episodes each, showing that Prioritized Sweeping generally converges faster with fewer Q-value updates."]}},{"docs":[{"tr":"Rapor (PDF)","en":"Report (PDF)","file":"imu-har-neural-network-report.pdf"}],"tags":["MATLAB","Neural Networks","Backpropagation","IMU"],"tr":{"title":"IMU Verisiyle İnsan Hareketi Tanıma: Sıfırdan Yapay Sinir Ağı","ctx":"Lisans · Akıllı Kontrol","b":["MATLAB'ta hazır fonksiyon kullanmadan 561-200-100-6 katmanlı (tanh, ReLU) ileri beslemeli sinir ağını ve geri yayılımlı SGD eğitimini kodladım; akıllı telefon IMU verisiyle (UCI HAR, 10.299 örnek) 6 fiziksel hareketi sınıflandırdım.","Sigmoid + MSE ile %94,1, softmax + çapraz entropi ile %93,9 test doğruluğu elde ettim."]},"en":{"title":"Human Activity Recognition from IMU Data: Neural Network from Scratch","ctx":"B.Sc. · Intelligent Control","b":["Coded a 561-200-100-6 feedforward neural network (tanh, ReLU) and backpropagation SGD training in MATLAB without built-in toolbox functions; classified 6 physical activities from smartphone IMU data (UCI HAR, 10,299 samples).","Reached 94.1% test accuracy with sigmoid + MSE and 93.9% with softmax + cross-entropy."]}},{"docs":[],"tags":["Kalman","EKF","UKF","Particle Filter"],"tr":{"title":"Sensör Füzyonu ve Durum Tahmini","ctx":"Yüksek Lisans · Olasılıksal Robotik","b":["Gürültü altında konum ve durum tahmini için Kalman, EKF, UKF ve Parçacık Filtresi algoritmalarını tasarladım."]},"en":{"title":"Sensor Fusion and State Estimation","ctx":"M.Sc. · Probabilistic Robotics","b":["Designed Kalman Filter, EKF, UKF and Particle Filter algorithms for position and state estimation under noise."]}},{"docs":[{"tr":"Poster (PDF)","en":"Poster (PDF)","file":"aircraft-6dof-hil-poster.pdf"}],"tags":["Simulink","6-DOF","FlightGear","Fuzzy PID","HIL"],"tr":{"title":"6 Serbestlik Dereceli Uçak Modeli ve Aerobatik Manevra Kontrolü","ctx":"Lisans Tasarım Projesi · TÜBİTAK 2209-B · 2023","b":["Simulink'te aerodinamik kuvvet ve moment katsayılarını look-up tablolarla hesaplayan, irtifaya bağlı hava yoğunluğu, yerçekimi ve rüzgârı içeren 6 serbestlik dereceli uçuş dinamiği modeli kurdum; çıktıları FlightGear'a aktararak görselleştirdim.","İç looping aerobatik manevrası için bulanık mantık tabanlı adaptif PID kontrolcü ve Hardware-in-the-Loop testi üzerinde çalıştım; manevra parametre limitlerini belirledim."]},"en":{"title":"6-DOF Aircraft Model and Aerobatic Maneuver Control","ctx":"B.Sc. Design Project · TÜBİTAK 2209-B · 2023","b":["Built a 6-DOF flight dynamics model in Simulink that computes aerodynamic force and moment coefficients from look-up tables and includes altitude-dependent air density, gravity and wind; visualized the outputs in FlightGear.","Worked on a fuzzy-logic adaptive PID controller and Hardware-in-the-Loop testing for the inner-loop aerobatic maneuver, and determined the maneuver's parameter limits."]}}];
+const PUBDOCS = [{ tr: "Bildiri (PDF)", en: "Paper (PDF)", file: "tok2026-paper.pdf" }, { tr: "Sunum belgesi (PDF)", en: "Presentation certificate (PDF)", file: "tok2026-certificate.pdf" }];
 const T = {
   tr: {
     loc: "İSTANBUL",
@@ -192,22 +206,14 @@ const T = {
     lead: "Baykar'da en az 2 İHA'lık sürüler için formasyon kontrolü ve rota planlama algoritmaları geliştiriyor, gerçek uçuş testleriyle doğruluyorum. YTÜ Kontrol ve Otomasyon Mühendisliği'nde yüksek lisans tezimi pekiştirmeli öğrenme, dünya modelleri ve MPC ile sürü formasyon kontrolü üzerine yazıyorum.",
     copy: "Kopyala", copied: "Kopyalandı", copyfail: "Seçildi, Ctrl+C ile kopyalayın",
     remote: "Uzaktan çalışmaya açık",
-    plotcap: "İkinci derece sistemin basamak yanıtı (ζ = 0,45): %20,5 aşım, ±%2 bandına ~8,9 s'de yerleşme.",
-    "h-proj": "Projeler", "t-proj": "Kontrol · Robotik · Derin öğrenme",
+    photocap: "Kontrol · Robotik · Yapay Zeka",
+    "h-proj": "Projeler", "t-proj": "Dokümanlarıyla birlikte",
     "h-exp": "İş deneyimi", "h-comp": "Yarışmalar ve takım liderliği",
     "h-edu": "Eğitim", "h-pub": "Yayın", "h-skill": "Beceriler",
-    pub: "T. E. Karabay, R. Arabacı, C. S. Demirci, Ö. F. Pekalkan, Ü. S. Soğancı, İ. Kiraz, M. T. Emirler, “Otonom Araç Yörünge Takibinde PID, Doğrusal Model Öngörülü ve Bulanık Mantık Adaptif Model Öngörülü Kontrolörlerin Kıyaslanması”, Türkiye Otomatik Kontrol Konferansı (TOK), 2026.",
-    foot: "Son güncelleme: Ekim 2026",
+    pub: "T. E. Karabay, R. Arabacı, C. S. Demirci, Ö. F. Pekalkan, Ü. S. Soğancı, İ. Kiraz, M. T. Emirler, “Otonom Araç Yörünge Takibinde PID, Doğrusal Model Öngörülü ve Bulanık Mantık Adaptif Model Öngörülü Kontrolörlerin Kıyaslanması”, Otomatik Kontrol Ulusal Toplantısı (TOK 2026), Ankara Üniversitesi, 8–10 Ekim 2026.",
+    foot: "Son güncelleme: Kasım 2026",
     axT: "t [s]", res: "Sonuç",
-    facts: [["2+ yıl", "profesyonel deneyim"], ["5.", "Teknofest Robotaksi 2024"], ["TOK 2026", "yayımlanan bildiri"], ["3,38 / 4", "yüksek lisans ders ortalaması"]],
-    projects: [
-      { ctx: "Yüksek lisans tezi · devam ediyor", h: "RL, dünya modelleri ve MPC ile İHA sürü formasyon kontrolü", p: "Pekiştirmeli öğrenme ve dünya modellerini Model Öngörülü Kontrol ile birleştirerek İHA sürülerinde formasyon kontrolü üzerine çalışıyorum.", tags: ["Reinforcement Learning", "World Models", "MPC", "Sürü"] },
-      { ctx: "Yüksek lisans · Otonom Sürüş Kontrol Sistemleri", h: "Bağlantılı otonom araçlarda konvoy (platoon) kontrolü", p: "V2V haberleşmeli 1 lider + 3 takipçi araçlık konvoy için elektronik gaz kelebeği açısını ve optimal hız fonksiyonunu içeren konsensüs tabanlı protokolü (Li ve He, 2018) yönlü graf topolojisiyle modelledim; kararlılığı Routh–Hurwitz kriteriyle analiz ettim. 2 kişilik ekip.", r: "<b>1,4 m/s</b> en büyük hız farkı 12 s içinde sıfırlandı; <b>5 m</b> takip mesafesi korundu.", tags: ["MATLAB", "Simulink", "V2V", "Graf teorisi", "Routh–Hurwitz"] },
-      { ctx: "Yüksek lisans · Derin öğrenme", h: "Uydu görüntülerinde çok görevli değişim tespiti", p: "İki zamanlı uydu görüntülerinde nesne (13), olay (13) ve öznitelik (25 sınıf) değişimlerini birlikte tespit eden Siyam ResNet34 modelini 9.628 örneklik veri setiyle eğittim; sınıf dengesizliğini pos_weight'li BCE, veri artırımı ve erken durdurmayla ele aldım.", r: "Makro F1: nesne <b>%17,0 → %24,4</b>, olay <b>%18,3 → %28,1</b>, öznitelik <b>%9,8 → %19,7</b>.", tags: ["PyTorch", "timm", "ResNet34", "Siamese", "Multi-task"] },
-      { ctx: "Yüksek lisans · TOK 2026", h: "Otonom araç yörünge takibi: Bulanık Mantık Adaptif MPC", p: "Araç dinamiğiyle Doğrusal MPC ve ağırlık matrisleri bulanık mantıkla güncellenen Adaptif MPC tasarladım; Dubins eğrileriyle üretilen referans yörüngeleri takip ettim.", r: "PID'e göre <b>daha az kontrol sinyaliyle</b> aynı takip verimi.", tags: ["MPC", "Bulanık mantık", "Dubins", "MATLAB"] },
-      { ctx: "Yüksek lisans · Olasılıksal Robotik", h: "Sensör füzyonu ve durum tahmini", p: "Gürültü altında konum ve durum tahmini için Kalman, EKF, UKF ve Parçacık Filtresi algoritmalarını tasarladım.", tags: ["Kalman", "EKF", "UKF", "Particle Filter"] },
-      { ctx: "Lisans tasarım projesi · TÜBİTAK 2209-B", h: "HIL ile aerobatik uçuş kontrolcüsü", p: "Simulink ve Hardware-in-the-Loop ile sabit kanatlı uçakların aerobatik manevraları için kontrolcü tasarladım ve parametre limitlerini belirledim. Ayrıca Cessna dinamik modelinde MPC ile agresif bozucular altında stabil irtifa kontrolü sağladım.", tags: ["Simulink", "HIL", "Uçuş dinamiği", "MPC"] }
-    ],
+    facts: [["2+ yıl", "profesyonel deneyim"], ["5.", "Teknofest Robotaksi 2024"], ["TOK 2026", "sunulan bildiri, 1. yazar"], ["3,38 / 4", "yüksek lisans ders ortalaması"]],
     exp: [
       ["Ekim 2024 – Halen", "Yapay Zeka Yazılım Mühendisi", "Baykar", ["En az 2 İHA'lık sürülerde kural tabanlı otonom formasyon kontrolü algoritmaları geliştirdim, gerçek uçuş testlerinde doğruladım (C++, MATLAB).", "Dinamik ve çevresel koşullar altında optimum rota planlama algoritmaları tasarladım."]],
       ["Şub 2024 – Eki 2024", "Emniyet Kritik Yazılım Mühendisi", "Yapı Merkezi İDİS", ["5 kişilik ekipte raylı sistem PLC'leri için ST kodu üreten yazılımın arayüz ve backend işlevlerini geliştirdim; sertifikasyon süreçlerinde görev aldım.", "Python, SQLite, Qt Designer ile masaüstü; STM32 ile gömülü yazılım."]],
@@ -216,17 +222,17 @@ const T = {
       ["Ara 2021 – Mar 2022", "Yapay Zeka Stajyeri (uzaktan)", "Segion Analytics", ["ODTÜ'de kurulan girişimin yapay zeka projelerinde staj."]]
     ],
     comp: [
-      ["2023 – 2024", "YODA Takım Kaptanı ve Yazılım Sorumlusu", "Teknofest Robotaksi", ["20 kişilik takım; ROS-Gazebo'da otonom sürüş yazılımı.", "OpenCV ile şerit takibi, YOLOv4/YOLOv7 ile trafik levhası tespiti, park etme, odometri ve lokalizasyon.", "2023'te 41 finalist arasında 13., 2024'te 5."]],
-      ["2024", "Takım Kaptanı ve Yazılım Sorumlusu", "Teknofest Uluslararası İHA", ["10 kişilik takım; kara araçlarıyla iş birliği yapan, hareketli platformlara iniş-kalkış yapan döner kanatlı İHA.", "Jetson Nano'da ROS ile nesne tespiti ve takibi, drone uçuş kontrol algoritmaları. Finalist."]]
+      ["2023 – 2024", "YODA Takım Kaptanı ve Yazılım Sorumlusu", "Teknofest Robotaksi", ["20 kişilik takım; ROS-Gazebo'da otonom sürüş yazılımı, odometri ve lokalizasyon.", "OpenCV ile şerit takibi, YOLOv4/YOLOv7 ile trafik levhası tespiti ve park etme.", "2023'te 41 finalist arasında 13., 2024'te 5."], [["teknofest-robotaksi.jpg", "YODA otonom aracı, Teknofest"]]],
+      ["2024", "Takım Kaptanı ve Yazılım Sorumlusu", "Teknofest Uluslararası İHA", ["10 kişilik takım; kara araçlarıyla iş birliği yapan, hareketli platformlara iniş-kalkış yapan döner kanatlı İHA.", "Jetson Nano'da ROS ile nesne tespiti ve takibi, drone uçuş kontrol algoritmaları. Finalist."], [["teknofest-iha.jpg", "Yarışma İHA'sı, Teknofest"], ["teknofest-iha-2.jpg", "İHA ile laboratuvarda"]]]
     ],
     edu: [
-      ["Devam ediyor", "Yüksek Lisans, Kontrol ve Otomasyon Müh.", "Yıldız Teknik Üniversitesi", ["Ders ortalaması 3,38 / 4,00 · Tez dönemi"]],
+      ["Devam ediyor", "Yüksek Lisans, Kontrol ve Otomasyon Müh.", "Yıldız Teknik Üniversitesi", ["Tez: Pekiştirmeli öğrenme, dünya modelleri ve MPC ile İHA sürü formasyon kontrolü", "Ders ortalaması 3,38 / 4,00 · Tez dönemi"]],
       ["2019 – 2024", "Lisans, Kontrol ve Otomasyon Müh. (İng.)", "Yıldız Teknik Üniversitesi", ["Ortalama 3,11 / 4,00 · YODA topluluğu kurucu ekip lideri"]]
     ],
     skills: [
-      ["Kontrol ve otonom sistemler", ["MPC", "Adaptif MPC", "Optimal kontrol", "Pekiştirmeli öğrenme", "World Models", "Sürü formasyonu", "Konvoy kontrolü", "Rota planlama", "Path tracking", "SLAM", "Odometri ve lokalizasyon", "Sistem tanıma"]],
-      ["Yapay zeka ve algılama", ["PyTorch", "CNN / ResNet", "Siyam ağları", "Çok görevli öğrenme", "OpenCV", "YOLOv4 / v7", "Nesne takibi", "Kalman / EKF / UKF", "Parçacık filtresi"]],
-      ["Yazılım ve araçlar", ["C++", "Python", "C", "MATLAB / Simulink", "ROS", "Gazebo", "Pixhawk", "FlightGear", "XFLR5", "Jetson Nano", "STM32", "PostgreSQL", "SQLite", "Qt Designer"]],
+      ["Kontrol ve otonom sistemler", ["MPC", "Adaptif MPC", "LQR", "Kaskad PID", "Optimal kontrol", "Pekiştirmeli öğrenme", "World Models", "Sürü formasyonu", "Konvoy kontrolü", "Rota planlama", "Path tracking", "SLAM", "Odometri ve lokalizasyon", "Sistem tanıma"]],
+      ["Yapay zeka ve algılama", ["PyTorch", "CNN / ResNet", "Siyam ağları", "Çok görevli öğrenme", "Sinir ağı (sıfırdan)", "Dyna-Q / Prioritized Sweeping", "OpenCV", "YOLOv4 / v7", "Nesne takibi", "Kalman / EKF / UKF", "Parçacık filtresi"]],
+      ["Yazılım ve araçlar", ["C++", "Python", "C", "MATLAB / Simulink", "ROS", "Gazebo", "Pixhawk", "QGroundControl", "FlightGear", "XFLR5", "Jetson Nano", "STM32", "PostgreSQL", "SQLite", "Qt Designer"]],
       ["Diller", ["Türkçe (ana dil)", "İngilizce (orta)", "İtalyanca (başlangıç)"]]
     ]
   },
@@ -236,22 +242,14 @@ const T = {
     lead: "At Baykar I develop formation control and route planning algorithms for swarms of at least 2 UAVs and validate them in real flight tests. My M.Sc. thesis at Yıldız Technical University covers swarm formation control with reinforcement learning, world models and MPC.",
     copy: "Copy", copied: "Copied", copyfail: "Selected, press Ctrl+C",
     remote: "Open to remote work",
-    plotcap: "Step response of a second-order system (ζ = 0.45): 20.5% overshoot, settles within ±2% at ~8.9 s.",
-    "h-proj": "Projects", "t-proj": "Control · Robotics · Deep learning",
+    photocap: "Control · Robotics · AI",
+    "h-proj": "Projects", "t-proj": "With documents",
     "h-exp": "Experience", "h-comp": "Competitions and team leadership",
     "h-edu": "Education", "h-pub": "Publication", "h-skill": "Skills",
-    pub: "T. E. Karabay, R. Arabacı, C. S. Demirci, Ö. F. Pekalkan, Ü. S. Soğancı, İ. Kiraz, M. T. Emirler, “Comparison of PID, Linear Model Predictive and Fuzzy Logic Adaptive Model Predictive Controllers in Autonomous Vehicle Path Tracking” (in Turkish), Turkish Automatic Control Conference (TOK), 2026.",
-    foot: "Last updated: October 2026",
+    pub: "T. E. Karabay, R. Arabacı, C. S. Demirci, Ö. F. Pekalkan, Ü. S. Soğancı, İ. Kiraz, M. T. Emirler, “Comparison of PID, Linear Model Predictive, and Fuzzy Logic Adaptive Model Predictive Controllers in Autonomous Vehicle Trajectory Tracking” (in Turkish), Turkish National Meeting on Automatic Control (TOK 2026), Ankara University, October 8–10, 2026.",
+    foot: "Last updated: November 2026",
     axT: "t [s]", res: "Result",
-    facts: [["2+ yrs", "professional experience"], ["5th", "Teknofest Robotaxi 2024"], ["TOK 2026", "published paper"], ["3.38 / 4", "M.Sc. coursework GPA"]],
-    projects: [
-      { ctx: "M.Sc. thesis · ongoing", h: "UAV swarm formation control with RL, world models and MPC", p: "Combining reinforcement learning and world models with Model Predictive Control for formation control of UAV swarms.", tags: ["Reinforcement Learning", "World Models", "MPC", "Swarm"] },
-      { ctx: "M.Sc. · Automated Driving Control Systems", h: "Connected autonomous vehicle platoon control", p: "Modeled a consensus-based protocol (Li & He, 2018) for a V2V-connected platoon of 1 leader and 3 followers, using electronic throttle angle and an optimal velocity function over a directed-graph topology; analyzed stability with the Routh–Hurwitz criterion. 2-person team.", r: "Peak velocity difference of <b>1.4 m/s</b> eliminated within 12 s; <b>5 m</b> following gap maintained.", tags: ["MATLAB", "Simulink", "V2V", "Graph theory", "Routh–Hurwitz"] },
-      { ctx: "M.Sc. · Deep learning", h: "Multi-task change detection in satellite imagery", p: "Trained a Siamese ResNet34 model on a 9,628-sample dataset to jointly detect object (13), event (13) and attribute (25 classes) changes in bi-temporal satellite images; handled class imbalance with pos_weight BCE, augmentation and early stopping.", r: "Macro F1: object <b>17.0% → 24.4%</b>, event <b>18.3% → 28.1%</b>, attribute <b>9.8% → 19.7%</b>.", tags: ["PyTorch", "timm", "ResNet34", "Siamese", "Multi-task"] },
-      { ctx: "M.Sc. · TOK 2026", h: "Autonomous vehicle path tracking: fuzzy adaptive MPC", p: "Designed a Linear MPC and an Adaptive MPC whose weight matrices are tuned by fuzzy logic, using vehicle dynamics; tracked reference paths generated with Dubins curves.", r: "Same tracking performance as PID with <b>a lower control signal</b>.", tags: ["MPC", "Fuzzy logic", "Dubins", "MATLAB"] },
-      { ctx: "M.Sc. · Probabilistic Robotics", h: "Sensor fusion and state estimation", p: "Designed Kalman Filter, EKF, UKF and Particle Filter algorithms for position and state estimation under noise.", tags: ["Kalman", "EKF", "UKF", "Particle Filter"] },
-      { ctx: "B.Sc. design project · TÜBİTAK 2209-B", h: "Aerobatic flight controller with HIL", p: "Used Simulink and Hardware-in-the-Loop to design a controller for aerobatic maneuvers of fixed-wing aircraft and set its parameter limits. Also achieved stable altitude control of a Cessna model under aggressive disturbances with MPC.", tags: ["Simulink", "HIL", "Flight dynamics", "MPC"] }
-    ],
+    facts: [["2+ yrs", "professional experience"], ["5th", "Teknofest Robotaxi 2024"], ["TOK 2026", "paper presented, first author"], ["3.38 / 4", "M.Sc. coursework GPA"]],
     exp: [
       ["Oct 2024 – Present", "AI Software Engineer", "Baykar", ["Developed rule-based autonomous formation control algorithms for swarms of at least 2 UAVs and validated them in real flight tests (C++, MATLAB).", "Designed optimal route planning algorithms under dynamic and environmental conditions."]],
       ["Feb 2024 – Oct 2024", "Safety-Critical Software Engineer", "Yapı Merkezi İDİS", ["In a 5-person team, developed interface and backend functions of software generating ST code for railway PLCs; took part in certification.", "Desktop software with Python, SQLite, Qt Designer; embedded software on STM32."]],
@@ -260,17 +258,17 @@ const T = {
       ["Dec 2021 – Mar 2022", "AI Intern (remote)", "Segion Analytics", ["Internship on AI projects at a start-up founded at METU."]]
     ],
     comp: [
-      ["2023 – 2024", "YODA Team Captain and Software Lead", "Teknofest Robotaxi", ["20-person team; autonomous driving software in ROS-Gazebo.", "Lane keeping with OpenCV, traffic sign detection with YOLOv4/YOLOv7, parking, odometry and localization.", "13th of 41 finalists in 2023, 5th in 2024."]],
-      ["2024", "Team Captain and Software Lead", "Teknofest International UAV", ["10-person team; rotary-wing UAV cooperating with ground vehicles and landing on moving platforms.", "ROS object detection and tracking on Jetson Nano, drone flight control algorithms. Finalist."]]
+      ["2023 – 2024", "YODA Team Captain and Software Lead", "Teknofest Robotaxi", ["20-person team; autonomous driving software, odometry and localization in ROS-Gazebo.", "Lane keeping with OpenCV, traffic sign detection with YOLOv4/YOLOv7, and parking.", "13th of 41 finalists in 2023, 5th in 2024."], [["teknofest-robotaksi.jpg", "YODA autonomous vehicle, Teknofest"]]],
+      ["2024", "Team Captain and Software Lead", "Teknofest International UAV", ["10-person team; rotary-wing UAV cooperating with ground vehicles and landing on moving platforms.", "ROS object detection and tracking on Jetson Nano, drone flight control algorithms. Finalist."], [["teknofest-iha.jpg", "Competition UAV, Teknofest"], ["teknofest-iha-2.jpg", "With the UAV in the lab"]]]
     ],
     edu: [
-      ["Ongoing", "M.Sc., Control and Automation Eng.", "Yıldız Technical University", ["Coursework GPA 3.38 / 4.00 · Thesis stage"]],
+      ["Ongoing", "M.Sc., Control and Automation Eng.", "Yıldız Technical University", ["Thesis: UAV swarm formation control with reinforcement learning, world models and MPC", "Coursework GPA 3.38 / 4.00 · Thesis stage"]],
       ["2019 – 2024", "B.Sc., Control and Automation Eng. (English)", "Yıldız Technical University", ["GPA 3.11 / 4.00 · Founding team leader, YODA community"]]
     ],
     skills: [
-      ["Control and autonomous systems", ["MPC", "Adaptive MPC", "Optimal control", "Reinforcement learning", "World Models", "Swarm formation", "Platoon control", "Route planning", "Path tracking", "SLAM", "Odometry and localization", "System identification"]],
-      ["AI and perception", ["PyTorch", "CNN / ResNet", "Siamese networks", "Multi-task learning", "OpenCV", "YOLOv4 / v7", "Object tracking", "Kalman / EKF / UKF", "Particle filter"]],
-      ["Software and tools", ["C++", "Python", "C", "MATLAB / Simulink", "ROS", "Gazebo", "Pixhawk", "FlightGear", "XFLR5", "Jetson Nano", "STM32", "PostgreSQL", "SQLite", "Qt Designer"]],
+      ["Control and autonomous systems", ["MPC", "Adaptive MPC", "LQR", "Cascade PID", "Optimal control", "Reinforcement learning", "World Models", "Swarm formation", "Platoon control", "Route planning", "Path tracking", "SLAM", "Odometry and localization", "System identification"]],
+      ["AI and perception", ["PyTorch", "CNN / ResNet", "Siamese networks", "Multi-task learning", "Neural nets (from scratch)", "Dyna-Q / Prioritized Sweeping", "OpenCV", "YOLOv4 / v7", "Object tracking", "Kalman / EKF / UKF", "Particle filter"]],
+      ["Software and tools", ["C++", "Python", "C", "MATLAB / Simulink", "ROS", "Gazebo", "Pixhawk", "QGroundControl", "FlightGear", "XFLR5", "Jetson Nano", "STM32", "PostgreSQL", "SQLite", "Qt Designer"]],
       ["Languages", ["Turkish (native)", "English (intermediate)", "Italian (beginner)"]]
     ]
   }
@@ -278,48 +276,27 @@ const T = {
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const tags = a => `<div class="tags">${a.map(t => `<span>${esc(t)}</span>`).join("")}</div>`;
-const rows = list => list.map(([w, title, org, items]) =>
-  `<div class="row"><div class="when">${esc(w)}</div><div><h3>${esc(title)} <em>· ${esc(org)}</em></h3><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div></div>`).join("");
-
-function drawStep(t) {
-  const svg = document.getElementById("step");
-  const W = 420, H = 240, L = 40, R = 12, Tp = 14, B = 34;
-  const z = 0.45, wn = 1, tMax = 16, yMax = 1.4;
-  const wd = wn * Math.sqrt(1 - z * z), phi = Math.acos(z);
-  const y = s => 1 - Math.exp(-z * wn * s) / Math.sqrt(1 - z * z) * Math.sin(wd * s + phi);
-  const X = s => L + (s / tMax) * (W - L - R);
-  const Y = v => Tp + (1 - v / yMax) * (H - Tp - B);
-  let d = "";
-  for (let i = 0; i <= 320; i++) { const s = tMax * i / 320; d += (i ? "L" : "M") + X(s).toFixed(1) + " " + Y(y(s)).toFixed(1); }
-  const tp = Math.PI / wd, mp = y(tp), ts = 4 / (z * wn);
-  const grid = [0, 4, 8, 12, 16].map(s => `<line x1="${X(s)}" y1="${Tp}" x2="${X(s)}" y2="${H - B}" stroke="var(--line)" stroke-width="1"/><text x="${X(s)}" y="${H - B + 16}" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">${s}</text>`).join("")
-    + [0, 0.5, 1].map(v => `<line x1="${L}" y1="${Y(v)}" x2="${W - R}" y2="${Y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L - 8}" y="${Y(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">${v.toFixed(1)}</text>`).join("");
-  svg.innerHTML =
-    `<rect x="${L}" y="${Y(1.02)}" width="${W - L - R}" height="${Y(0.98) - Y(1.02)}" fill="var(--band)"/>` + grid +
-    `<line x1="${L}" y1="${Y(1)}" x2="${W - R}" y2="${Y(1)}" stroke="var(--muted)" stroke-dasharray="4 4" stroke-width="1"/>` +
-    `<line x1="${X(ts)}" y1="${Tp}" x2="${X(ts)}" y2="${H - B}" stroke="var(--accent)" stroke-dasharray="2 4" stroke-width="1"/>` +
-    `<path d="${d}" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round"/>` +
-    `<circle cx="${X(tp)}" cy="${Y(mp)}" r="4" fill="var(--accent)"/>` +
-    `<text x="${X(tp) + 8}" y="${Y(mp) - 6}" font-size="11" fill="var(--fg)" font-family="IBM Plex Mono, monospace">Mp ${t === "tr" ? (Math.round((mp - 1) * 1000) / 10).toString().replace(".", ",") : (Math.round((mp - 1) * 1000) / 10)}%</text>` +
-    `<text x="${X(ts) + 6}" y="${Tp + 12}" font-size="11" fill="var(--accent)" font-family="IBM Plex Mono, monospace">ts</text>` +
-    `<text x="${W - R}" y="${H - 4}" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">${T[t].axT}</text>` +
-    `<text x="${L}" y="${Tp - 2}" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">y(t)</text>`;
-}
+const gallery = imgs => imgs && imgs.length ? `<div class="gallery">${imgs.map(([src, cap]) => `<figure><a href="img/${esc(src)}" target="_blank" rel="noopener"><img src="img/${esc(src)}" alt="${esc(cap)}"></a><figcaption>${esc(cap)}</figcaption></figure>`).join("")}</div>` : "";
+const rows = list => list.map(([w, title, org, items, imgs]) =>
+  `<div class="row"><div class="when">${esc(w)}</div><div><h3>${esc(title)} <em>· ${esc(org)}</em></h3><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>${gallery(imgs)}</div></div>`).join("");
 
 function render(lang) {
   const t = T[lang];
   document.documentElement.lang = lang;
   document.querySelectorAll("[data-i]").forEach(el => { el.textContent = t[el.dataset.i]; });
   document.getElementById("facts").innerHTML = t.facts.map(([b, s]) => `<div class="fact"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("");
-  document.getElementById("projects").innerHTML = t.projects.map(p =>
-    `<article class="proj"><span class="ctx">${esc(p.ctx)}</span><h3>${esc(p.h)}</h3><p>${esc(p.p)}</p>${p.r ? `<div class="result">${p.r}</div>` : ""}${tags(p.tags)}</article>`).join("");
+  document.getElementById("projects").innerHTML = PROJECTS.map(p => {
+    const d = p[lang];
+    const docs = p.docs.length ? `<div class="docs">${p.docs.map(x => `<a href="docs/${esc(x.file)}" target="_blank" rel="noopener">${esc(x[lang])} ↗</a>`).join("")}</div>` : "";
+    return `<article class="proj"><span class="ctx">${esc(d.ctx)}</span><h3>${esc(d.title)}</h3><ul>${d.b.map(i => `<li>${esc(i)}</li>`).join("")}</ul>${docs}${tags(p.tags)}</article>`;
+  }).join("");
+  document.getElementById("pubdocs").innerHTML = PUBDOCS.map(x => `<a href="docs/${esc(x.file)}" target="_blank" rel="noopener">${esc(x[lang])} ↗</a>`).join("");
   document.getElementById("exp").innerHTML = rows(t.exp);
   document.getElementById("comp").innerHTML = rows(t.comp);
   document.getElementById("edu").innerHTML = rows(t.edu);
   document.getElementById("skills").innerHTML = t.skills.map(([h, a]) => `<div><h3>${esc(h)}</h3>${tags(a)}</div>`).join("");
   document.getElementById("btn-tr").setAttribute("aria-pressed", lang === "tr");
   document.getElementById("btn-en").setAttribute("aria-pressed", lang === "en");
-  drawStep(lang);
 }
 
 function pickLang() {
